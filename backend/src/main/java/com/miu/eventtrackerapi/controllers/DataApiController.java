@@ -1,0 +1,80 @@
+package com.miu.eventtrackerapi.controllers;
+
+import com.miu.eventtrackerapi.entities.DataApi;
+import com.miu.eventtrackerapi.entities.Message;
+import com.miu.eventtrackerapi.repositories.DataApiRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.Arrays;
+import javax.xml.crypto.Data;
+import java.util.List;
+import java.util.Objects;
+
+@RestController
+public class DataApiController {
+    private final DataApiRepository repo;
+
+    public DataApiController(DataApiRepository repo) {
+        this.repo = repo;
+    }
+
+    @GetMapping("/sources")
+    public Page<DataApi> getAll(Pageable pageable){
+        return repo.findByApprovedTrue(pageable);
+    }
+
+    @GetMapping("/disallowedsources")
+    public Page<DataApi> getAllDisallowedApis(Pageable pageable) {
+        return repo.findByApprovedFalse(pageable);
+    }
+
+    @GetMapping("/sources/{id}")
+    DataApi getDataApi(@PathVariable Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("DataApi id="+id));
+    }
+
+    @PutMapping("/sources/{id}/approve")
+    DataApi updateDataApi(@PathVariable Long id){
+        return repo.findById(id)
+                .map(da -> {
+                    da.setApproved(true);
+                    return repo.save(da);
+                })
+                .orElseThrow();
+    }
+
+    @PutMapping("/sources")
+    void updateDataApis(@PathVariable Long idList[], @RequestBody DataApi api){
+
+        Arrays.stream(idList)
+                .map(repo::findById)
+                .map(e->e.orElse(null))
+                .filter(Objects::nonNull)
+                .forEach(da-> {
+//                            if (api.getName() != null) da.setName(api.getName());
+//                            if (api.getUrl() != null) da.setUrl(api.getUrl());
+//                    if (api.isApproved() == null) da.setApproved(api.isApproved());
+//                            repo.save(da);
+                            System.out.println(da);
+                        }
+                );
+    }
+
+    @PostMapping("/sources")
+    DataApi addDataApi(@RequestBody DataApi api) {
+        return repo.save(api);
+    }
+
+//    @PostMapping("/sources")
+//    public DataApi addApi(@RequestBody DataApi api){
+//        return repo.findByUrl(api.getUrl())
+//                .orElse(()->repo.save(api));
+//    }
+}
+
