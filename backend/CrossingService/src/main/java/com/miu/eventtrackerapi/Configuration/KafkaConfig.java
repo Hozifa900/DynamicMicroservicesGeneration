@@ -44,7 +44,6 @@ public class KafkaConfig {
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> adminConfigs = new HashMap<>();
         adminConfigs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        // Add any other Kafka admin properties here
 
         return new KafkaAdmin(adminConfigs);
 //
