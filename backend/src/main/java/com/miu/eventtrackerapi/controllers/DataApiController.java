@@ -36,7 +36,7 @@ public class DataApiController {
     @GetMapping("/sources/{id}")
     DataApi getDataApi(@PathVariable Long id) {
         return repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("DataApi id="+id));
+                .orElseThrow(() -> new EntityNotFoundException("DataApiService id="+id));
     }
 
     @PutMapping("/sources/{id}/approve")
@@ -72,7 +72,7 @@ public class DataApiController {
     }
 
 //    @PostMapping("/sources")
-//    public DataApi addApi(@RequestBody DataApi api){
+//    public DataApiService addApi(@RequestBody DataApiService api){
 //        return repo.findByUrl(api.getUrl())
 //                .orElse(()->repo.save(api));
 //    }
