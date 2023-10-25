@@ -2,6 +2,7 @@ package com.miu.eventtrackerapi.controllers;
 
 import com.miu.eventtrackerapi.entities.DataApi;
 import com.miu.eventtrackerapi.entities.Message;
+import com.miu.eventtrackerapi.integration.KafkaRetriever;
 import com.miu.eventtrackerapi.repositories.DataApiRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
 import java.util.Arrays;
 import javax.xml.crypto.Data;
 import java.util.List;
@@ -24,8 +27,16 @@ public class DataApiController {
     }
 
     @GetMapping("/sources")
-    public Page<DataApi> getAll(Pageable pageable){
-        return repo.findByApprovedTrue(pageable);
+    public List<DataApi> getAll(Pageable pageable){
+        // return repo.findByApprovedTrue(pageable);
+        var ret = new KafkaRetriever<String>();
+        return ret.getAllFromTopic("new.api", Duration.ofSeconds(1)).stream()
+        .map(r-> {
+            var api = new DataApi();
+            api.setName("generic api");
+            api.setUrl(r);
+            return api;
+        }).toList();
     }
 
     @GetMapping("/disallowedsources")

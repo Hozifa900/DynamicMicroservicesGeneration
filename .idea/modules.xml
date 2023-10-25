@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DynamicMicroservicesGeneration.iml" filepath="$PROJECT_DIR$/.idea/DynamicMicroservicesGeneration.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/CrossingService/eventtrackerapi.iml" filepath="$PROJECT_DIR$/backend/CrossingService/eventtrackerapi.iml" />
     </modules>
   </component>
 </project>
