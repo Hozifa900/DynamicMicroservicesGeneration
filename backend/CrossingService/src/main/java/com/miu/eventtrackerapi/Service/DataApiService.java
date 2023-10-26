@@ -1,5 +1,6 @@
 package com.miu.eventtrackerapi.Service;
 
+import com.miu.eventtrackerapi.entities.DataApi;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class DataApiService {
     }
 
 
-    public void sendMessage(String topic, String key, String message) {
-        kafkaTemplate.send(topic, key, message);
+    public void sendMessage(String topic, DataApi api) {
+        kafkaTemplate.send(topic, api);
     }
 }

@@ -1,6 +1,8 @@
 package com.miu.eventtrackerapi.Service;
 
 
+import com.miu.eventtrackerapi.entities.DataApi;
+import com.miu.eventtrackerapi.integration.KafkaRetriever;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -10,35 +12,27 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MessageService {
 
     private final ConsumerFactory<String, String> consumerFactory;
+    private final KafkaRetriever<String> retriever;
 
-    public MessageService(ConsumerFactory<String, String> consumerFactory) {
+    public MessageService(ConsumerFactory<String, String> consumerFactory, KafkaRetriever<String> retriever) {
         this.consumerFactory = consumerFactory;
+        this.retriever = retriever;
     }
 
-    public List<String> getMessagesFromTopic(String topicName) {
-        Consumer<String, String> consumer = consumerFactory.createConsumer();
-
-        consumer.subscribe(Collections.singletonList(topicName));
-
-        List<String> messages = new ArrayList<>();
-
-        while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
-            records.forEach(record -> {
-                messages.add(record.value());
-            });
-
-            if (records.isEmpty()) {
-                break;
-            }
-        }
-        consumer.close();
-
-        return messages;
+    public List<DataApi> getMessagesFromTopic(String topicName) {
+        return retriever.getAllFromTopic(topicName, Duration.ofSeconds(1)).stream()
+                .map(r-> {
+                    var api = new DataApi();
+                    api.setApiKey(topicName + UUID.randomUUID().toString());
+                    api.setUrl(r);
+                    api.setNeedsKey(false);
+                    return api;
+                }).toList();
     }
 }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 public class DataApiController {
@@ -30,10 +31,10 @@ public class DataApiController {
     public List<DataApi> getAll(Pageable pageable){
         // return repo.findByApprovedTrue(pageable);
         var ret = new KafkaRetriever<String>();
-        return ret.getAllFromTopic("new.api", Duration.ofSeconds(1)).stream()
+        return ret.getAllFromTopic("api", Duration.ofSeconds(1)).stream()
         .map(r-> {
             var api = new DataApi();
-            api.setName("generic api");
+            api.setApiKey(UUID.randomUUID().toString());
             api.setUrl(r);
             return api;
         }).toList();

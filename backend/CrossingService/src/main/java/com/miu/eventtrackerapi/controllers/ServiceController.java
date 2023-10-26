@@ -1,7 +1,10 @@
 package com.miu.eventtrackerapi.controllers;
 
+import com.miu.eventtrackerapi.Service.MessageService;
+import com.miu.eventtrackerapi.Service.ServiceService;
 import com.miu.eventtrackerapi.entities.DataApi;
 import com.miu.eventtrackerapi.entities.Service;
+import com.miu.eventtrackerapi.integration.KafkaRetriever;
 import com.miu.eventtrackerapi.repositories.DataApiRepository;
 import com.miu.eventtrackerapi.repositories.ServiceRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,25 +17,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/services")
 public class ServiceController {
-    private final ServiceRepository repo;
-
-    public ServiceController(ServiceRepository repo) {
-        this.repo = repo;
+    private final ServiceService service;
+    private final MessageService message;
+    public ServiceController(ServiceService service, MessageService message) {
+        this.service = service;
+        this.message = message;
     }
 
     @GetMapping
-    public Page<Service> getAll(Pageable pageable){
-        return repo.findAll(pageable);
+    public Set<String> getAll(){
+        return service.listTopics();
     }
 
-    @GetMapping("/{id}")
-    Service getDataApi(@PathVariable Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("service id="+id));
+    @GetMapping("/{topicName}")
+    public List<DataApi> getAllMessagesByTopic(@PathVariable String topicName){
+        return message.getMessagesFromTopic(topicName);
     }
+
+//    @GetMapping("/{id}")
+//    Service getDataApi(@PathVariable Long id) {
+//        return repo.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("service id="+id));
+//    }
 }

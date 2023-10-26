@@ -19,13 +19,15 @@ public class DataApi {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String url;
-    private String name;
+    private String apiKey;
 //    private String description;
+    private boolean needsKey;
+    private String name;
     private boolean approved;
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @CreationTimestamp
+//    private LocalDateTime createdAt;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @UpdateTimestamp
+//    private LocalDateTime updatedAt;
 }
