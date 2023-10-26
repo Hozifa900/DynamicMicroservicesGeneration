@@ -104,6 +104,11 @@ public class DataApiController {
         kafkaTemplate.send("healthyapi", api);
         return api;
     }
+//
+//    @PostMapping("/sources")
+//    DataApi addDataApi(@RequestBody DataApi api) {
+////        return repo.save(api);
+//    }
 
 //    @PostMapping("/sources")
 //    public DataApiService addApi(@RequestBody DataApiService api){
