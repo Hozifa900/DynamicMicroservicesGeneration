@@ -13,6 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 @Data
 public class DataApi {
+    private Long id;
     private String url;
     private String apiKey;
     private boolean needsKey;
