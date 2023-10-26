@@ -3,7 +3,7 @@ package com.miu.eventtrackerapi;
 import com.miu.eventtrackerapi.entities.DataApi;
 import com.miu.eventtrackerapi.entities.Message;
 import com.miu.eventtrackerapi.entities.Service;
-import com.miu.eventtrackerapi.repositories.DataApiRepository;
+//import com.miu.eventtrackerapi.repositories.DataApiRepository;
 import com.miu.eventtrackerapi.repositories.MessageRepository;
 import com.miu.eventtrackerapi.repositories.ServiceRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -16,21 +16,21 @@ import java.util.Random;
 @Component
 public class DataSeeder implements CommandLineRunner {
 
-    private final DataApiRepository dataApiRepository;
+//    private final DataApiRepository dataApiRepository;
     private final ServiceRepository serviceRepository;
     private final MessageRepository messageRepository;
 
-    public DataSeeder(DataApiRepository dataApiRepository,
+    public DataSeeder(
                       ServiceRepository serviceRepository,
                       MessageRepository messageRepository) {
-        this.dataApiRepository = dataApiRepository;
+//        this.dataApiRepository = dataApiRepository;
         this.serviceRepository = serviceRepository;
         this.messageRepository = messageRepository;
     }
 
     @Override
     public void run(String... args) {
-        seedApiList();
+//        seedApiList();
         seedServiceList();
     }
 
@@ -77,21 +77,21 @@ public class DataSeeder implements CommandLineRunner {
         addMessagesToService(service);
     }
 
-    private void seedApiList() {
-        var api = new DataApi();
-        api.setUrl("https://localhost:8080/api/cpu");
-        api.setName("CPU source");
-        dataApiRepository.save(api);
-
-        api = new DataApi();
-        api.setUrl("https://localhost:8080/api/ram");
-        api.setName("RAM source");
-        dataApiRepository.save(api);
-
-        api = new DataApi();
-        api.setUrl("https://localhost:8080/api/storage");
-        api.setName("Storage source");
-        dataApiRepository.save(api);
-    }
+//    private void seedApiList() {
+//        var api = new DataApi();
+//        api.setUrl("https://localhost:8080/api/cpu");
+//        api.setName("CPU source");
+//        dataApiRepository.save(api);
+//
+//        api = new DataApi();
+//        api.setUrl("https://localhost:8080/api/ram");
+//        api.setName("RAM source");
+//        dataApiRepository.save(api);
+//
+//        api = new DataApi();
+//        api.setUrl("https://localhost:8080/api/storage");
+//        api.setName("Storage source");
+//        dataApiRepository.save(api);
+//    }
 }
 
