@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataApiService {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, DataApi> kafkaTemplate;
 
-    public DataApiService(KafkaTemplate<String, String> kafkaTemplate) {
+    public DataApiService(KafkaTemplate<String, DataApi> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

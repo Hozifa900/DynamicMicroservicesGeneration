@@ -4,9 +4,9 @@ import { Create, SimpleForm, TextInput, required, BooleanInput, UrlField } from 
 export const ApiCreate = () => (
     <Create>
         <SimpleForm>
-            <TextInput source="name" validate={[required()]} />
             <TextInput source="url" multiline={true} validate={[required()]} fullWidth />
-            <BooleanInput source='approved' defaultChecked/>
+            <TextInput source="apiKey" multiline={true} validate={[required()]} fullWidth />
+            <BooleanInput source='needskey' defaultChecked/>
         </SimpleForm>
     </Create>
 );

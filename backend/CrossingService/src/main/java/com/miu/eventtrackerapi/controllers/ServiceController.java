@@ -5,8 +5,6 @@ import com.miu.eventtrackerapi.Service.ServiceService;
 import com.miu.eventtrackerapi.entities.DataApi;
 import com.miu.eventtrackerapi.entities.Service;
 import com.miu.eventtrackerapi.integration.KafkaRetriever;
-import com.miu.eventtrackerapi.repositories.DataApiRepository;
-import com.miu.eventtrackerapi.repositories.ServiceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

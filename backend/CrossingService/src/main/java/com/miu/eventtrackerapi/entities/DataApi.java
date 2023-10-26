@@ -13,17 +13,17 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Data
-@Entity
+// @Entity
 public class DataApi {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    // @Id
+    // @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String url;
     private String apiKey;
 //    private String description;
     private boolean needsKey;
-    private String name;
-    private boolean approved;
+    // private String name;
+    // private boolean approved;
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @CreationTimestamp
 //    private LocalDateTime createdAt;

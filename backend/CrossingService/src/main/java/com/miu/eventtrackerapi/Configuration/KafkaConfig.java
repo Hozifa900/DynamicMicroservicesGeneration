@@ -3,6 +3,7 @@ package com.miu.eventtrackerapi.Configuration;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,9 @@ import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import com.miu.eventtrackerapi.entities.DataApi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,27 +29,16 @@ public class KafkaConfig {
     private String bootstrapServers;
 
 
-    public Map<String, Object> consumerConfig() {
+    public Map<String, Object> getConfig() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return props;
     }
-    private Map<String, Object> producerConfigurations() {
-        Map<String, Object> configurations = new HashMap<>();
-        configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // Replace with your Kafka broker address
-        configurations.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        configurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        return configurations;
-    }
-
-    @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfig());
-    }
-
+    
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> adminConfigs = new HashMap<>();
@@ -54,13 +47,32 @@ public class KafkaConfig {
         return new KafkaAdmin(adminConfigs);
 
     }
+
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigurations());
+    public ConsumerFactory<String, String> StringConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(getConfig());
+    }
+
+    
+    @Bean
+    public ProducerFactory<String, String> stringProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(getConfig());
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, String> stringKafkaTemplate() {
+        return new KafkaTemplate<>(stringProducerFactory());
     }
+
+        
+    @Bean
+    public ProducerFactory<String, DataApi> apiProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(getConfig());
+    }
+
+    @Bean
+    public KafkaTemplate<String, DataApi> apiKafkaTemplate() {
+        return new KafkaTemplate<>(apiProducerFactory());
+    }
+
 }
