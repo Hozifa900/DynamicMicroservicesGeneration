@@ -16,13 +16,14 @@ import { ServiceShow } from "./components/ServiceShow";
 export const App = () => (
   <Admin dataProvider={dataProvider} >
     <Resource
-      name="sources"
+      name="healthy"
       list={ApiList}
+      options={{ label: "Healthy API's" }}
       create={ApiCreate}
     />
     <Resource
-      name="disallowedsources"
-      options={{ label: "Disallowed" }}
+      name="unsure"
+      options={{ label: "Unsure API's" }}
       list={DisallowedApiList}
     />
     <Resource

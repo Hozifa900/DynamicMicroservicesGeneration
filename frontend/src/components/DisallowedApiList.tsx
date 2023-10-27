@@ -10,7 +10,7 @@ const ApproveButton = () => {
     const record = useRecordContext();
     const dataProvider = useDataProvider();
     const { mutate, isLoading } = useMutation(
-        () => dataProvider.approveSource(record.id).then(()=>refresh())
+        () => dataProvider.approveApi(record.id).then(()=>refresh())
     );
     return <Button startIcon={<ThumbUpIcon/>} label="Approve" onClick={() => {console.log(record); mutate();}} disabled={isLoading} />;
 };
@@ -20,9 +20,9 @@ export const DisallowedApiList = (props) => (
         <Datagrid bulkActionButtons={false}>
             <TextField source="id" />
             <UrlField source="url" />
-            <TextField source="name" />
-            <DateField source="createdAt" />
-            <DateField source="updatedAt" />
+            <TextField source="apiKey" />
+            <BooleanField source="needsKey" />
+            <BooleanField source="healthy" />
             <ApproveButton />
         </Datagrid>
     </List>

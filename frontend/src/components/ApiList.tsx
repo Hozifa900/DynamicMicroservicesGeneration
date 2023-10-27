@@ -5,9 +5,9 @@ export const ApiList = (props) => (
         <Datagrid bulkActionButtons={false}>
             <TextField source="id" />
             <UrlField source="url" />
-            <TextField source="name" />
-            <DateField source="createdAt" />
-            <DateField source="updatedAt" />
+            <TextField source="apiKey" />
+            <BooleanField source="needsKey" />
+            <BooleanField source="healthy" />
         </Datagrid>
     </List>
 );

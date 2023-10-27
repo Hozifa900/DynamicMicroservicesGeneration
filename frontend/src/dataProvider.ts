@@ -6,8 +6,8 @@ const apiUrl = '/api';
 const httpClient = fetchUtils.fetchJson;
 
 export default {
-    approveSource: (id) => {
-        const url = `${apiUrl}/sources/${id}/approve`;
+    approveApi: (id) => {
+        const url = `${apiUrl}/unsure/${id}/allow`;
         return httpClient(url,{
             method: 'PUT'
         }).then(({ json }) => ({ data: json }));
